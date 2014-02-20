@@ -434,6 +434,12 @@ class xmldb_field extends xmldb_object {
             case 'datetime':
                 $result = XMLDB_TYPE_DATETIME;
                 break;
+            case 'text[]':
+                $result = XMLDB_TYPE_TEXT_ARRAY;
+                break;
+            case 'int[]':
+                $result = XMLDB_TYPE_INTEGER_ARRAY;
+                break;
         }
         // Return the normalized XMLDB_TYPE
         return $result;
@@ -470,6 +476,12 @@ class xmldb_field extends xmldb_object {
                 break;
             case XMLDB_TYPE_DATETIME:
                 $result = 'datetime';
+                break;
+            case XMLDB_TYPE_INTEGER_ARRAY:
+                $result = 'int[]';
+                break;
+            case XMLDB_TYPE_TEXT_ARRAY:
+                $result = 'text[]';
                 break;
         }
         // Return the normalized name
@@ -653,6 +665,12 @@ class xmldb_field extends xmldb_object {
                 break;
             case XMLDB_TYPE_TIMESTAMP:
                 $result .= 'XMLDB_TYPE_TIMESTAMP' . ', ';
+                break;
+            case XMLDB_TYPE_INTEGER_ARRAY:
+                $result .= 'XMLDB_TYPE_INTEGER_ARRAY' . ', ';
+                break;
+            case XMLDB_TYPE_TEXT_ARRAY:
+                $result .= 'XMLDB_TYPE_TEXT_ARRAY' . ', ';
                 break;
         }
         // The length
@@ -839,6 +857,12 @@ class xmldb_field extends xmldb_object {
                 break;
 
             case XMLDB_TYPE_TIMESTAMP:
+                break;
+
+            case XMLDB_TYPE_INTEGER_ARRAY:
+                break;
+
+            case XMLDB_TYPE_TEXT_ARRAY:
                 break;
         }
 

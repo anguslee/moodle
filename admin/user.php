@@ -159,7 +159,7 @@
     $context = context_system::instance();
     $extracolumns = get_extra_user_fields($context);
     $columns = array_merge(array('firstname', 'lastname'), $extracolumns,
-            array('city', 'country', 'lastaccess'));
+            array('city', 'province', 'lastaccess'));
 
     foreach ($columns as $column) {
         $string[$column] = get_user_field_name($column);

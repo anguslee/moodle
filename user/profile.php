@@ -225,7 +225,7 @@ if (is_mnet_remote_user($user)) {
 }
 
 echo '<div class="userprofilebox clearfix"><div class="profilepicture">';
-echo $OUTPUT->user_picture($user, array('size'=>100));
+// echo $OUTPUT->user_picture($user, array('size'=>100));
 echo '</div>';
 
 echo '<div class="descriptionbox"><div class="description">';
@@ -341,6 +341,41 @@ if ($user->msn && !isset($hiddenfields['msnid'])) {
     echo html_writer::tag('dd', s($user->msn));
 }
 
+// demonstrates zhulou custom fields
+
+echo html_writer::tag('dt', 'Gender');
+echo html_writer::tag('dd', '男(M)');
+
+echo html_writer::tag('dt', 'Birthday');
+echo html_writer::tag('dd', '1983/05/16');
+
+echo html_writer::tag('dt', 'Address');
+echo html_writer::tag('dd', '5 xx Road, Heping, Shenyang, Liaoning, 110023');
+
+echo html_writer::tag('dt', 'Parents');
+echo html_writer::tag('dd',
+                      html_writer::tag('table',
+                                       html_writer::tag('tr',
+                                                        html_writer::tag('td', 'James Bond') .
+                                                        html_writer::tag('td', 'jbond@gmail.com') .
+                                                        html_writer::tag('td', '121-813-1121')) .
+                                       html_writer::tag('tr',
+                                                        html_writer::tag('td', 'Michael Jordan') .
+                                                        html_writer::tag('td', 'mj@gmail.com') .
+                                                        html_writer::tag('td', '121-813-2121')), 
+                                       array("border" => "1"))
+                      );
+echo html_writer::tag('dt', '户口(Hukou)');
+echo html_writer::tag('dd', 'Heping');
+
+echo html_writer::tag("dt", "Positions");
+echo html_writer::tag("dd", html_writer::tag("table",
+                                             html_writer::tag("tr", html_writer::tag("td", "Sports Monitor")) .
+                                             html_writer::tag("tr", html_writer::tag("td", "Math Monitor")),
+                                             array("border" => "1")));
+
+// end demo
+
 /// Print the Custom User Fields
 profile_display_fields($user->id);
 
@@ -372,24 +407,24 @@ if (!isset($hiddenfields['mycourses'])) {
         echo html_writer::tag('dd', rtrim($courselisting,', '));
     }
 }
-if (!isset($hiddenfields['firstaccess'])) {
-    if ($user->firstaccess) {
-        $datestring = userdate($user->firstaccess)."&nbsp; (".format_time(time() - $user->firstaccess).")";
-    } else {
-        $datestring = get_string("never");
-    }
-    echo html_writer::tag('dt', get_string('firstaccess'));
-    echo html_writer::tag('dd', $datestring);
-}
-if (!isset($hiddenfields['lastaccess'])) {
-    if ($user->lastaccess) {
-        $datestring = userdate($user->lastaccess)."&nbsp; (".format_time(time() - $user->lastaccess).")";
-    } else {
-        $datestring = get_string("never");
-    }
-    echo html_writer::tag('dt', get_string('lastaccess'));
-    echo html_writer::tag('dd', $datestring);
-}
+/* if (!isset($hiddenfields['firstaccess'])) { */
+/*     if ($user->firstaccess) { */
+/*         $datestring = userdate($user->firstaccess)."&nbsp; (".format_time(time() - $user->firstaccess).")"; */
+/*     } else { */
+/*         $datestring = get_string("never"); */
+/*     } */
+/*     echo html_writer::tag('dt', get_string('firstaccess')); */
+/*     echo html_writer::tag('dd', $datestring); */
+/* } */
+/* if (!isset($hiddenfields['lastaccess'])) { */
+/*     if ($user->lastaccess) { */
+/*         $datestring = userdate($user->lastaccess)."&nbsp; (".format_time(time() - $user->lastaccess).")"; */
+/*     } else { */
+/*         $datestring = get_string("never"); */
+/*     } */
+/*     echo html_writer::tag('dt', get_string('lastaccess')); */
+/*     echo html_writer::tag('dd', $datestring); */
+/* } */
 
 /// Printing tagged interests
 if (!empty($CFG->usetags)) {

@@ -191,6 +191,14 @@ function xmldb_main_install() {
     $mnetallhosts->id                 = $DB->insert_record('mnet_host', $mnetallhosts, true);
     set_config('mnet_all_hosts_id', $mnetallhosts->id);
 
+    // Create sandbox school record, which is the default school for users that don't need belong to any schools.
+    if ($DB->record_exists('school', array())) {
+        throw new moodle_exception('generalexceptionmessage', 'error', '', 'Can not create default schools, schools already exist.');
+    }
+    $sandbox_school = new stdClass();
+    $sandbox_school->name = 'SandBox School';
+    $sandbox_school->id = $DB->insert_record('school', $sandbox_school);
+    
     // Create guest record - do not assign any role, guest user gets the default guest role automatically on the fly
     if ($DB->record_exists('user', array())) {
         throw new moodle_exception('generalexceptionmessage', 'error', '', 'Can not create default users, users already exist.');
@@ -201,6 +209,7 @@ function xmldb_main_install() {
     $guest->password    = hash_internal_user_password('guest');
     $guest->firstname   = get_string('guestuser');
     $guest->lastname    = ' ';
+    $guest->belong_school = $sandbox_school->id;
     $guest->email       = 'root@localhost';
     $guest->description = get_string('guestuserinfo');
     $guest->mnethostid  = $CFG->mnet_localhost_id;
@@ -215,7 +224,6 @@ function xmldb_main_install() {
     set_config('siteguest', $guest->id);
     // Make sure user context exists
     context_user::instance($guest->id);
-
 
     // Now create admin user
     $admin = new stdClass();
@@ -244,6 +252,29 @@ function xmldb_main_install() {
     set_config('siteadmins', $admin->id);
     // Make sure user context exists
     context_user::instance($admin->id);
+
+    $test_user = new stdClass();
+    $test_user->auth        = 'manual';
+    $test_user->username    = 'anguslee';
+    $test_user->password    = hash_internal_user_password('test_user');
+    $test_user->firstname   = get_string('Angus');
+    $test_user->lastname    = 'LEE';
+    $test_user->belong_school = $sandbox_school->id;
+    $test_user->email       = 'angus.lee8329@gmail.com';
+    $test_user->description = get_string('Very first non-guest user');
+    $test_user->mnethostid  = $CFG->mnet_localhost_id;
+    $test_user->confirmed   = 1;
+    $test_user->lang        = $CFG->lang;
+    $test_user->timemodified= time();
+    $test_user->ssn_id = 'XNS1218112';
+    $test_user->qq = '8291167';
+    $test_user->entry_year = '2014';
+    $test_user->hukou = 'Beijing';
+    $test_user->id = $DB->insert_record('user', $test_user);
+
+    // Make sure user context exists
+    context_user::instance($test_user->id);
+
 
 
     // Install the roles system.

@@ -512,15 +512,16 @@ function get_users_listing($sort='lastaccess', $dir='ASC', $page=0, $recordsperp
     $extrafields = '';
     if ($extracontext) {
         $extrafields = get_extra_user_fields_sql($extracontext, '', '',
-                array('id', 'username', 'email', 'firstname', 'lastname', 'city', 'country',
-                'lastaccess', 'confirmed', 'mnethostid'));
+                                                 array('id', 'username', 'email', 'firstname', 'lastname', 'city', 'district',
+                                                       'province', 'lastaccess', 'confirmed', 'mnethostid'));
     }
     $namefields = get_all_user_name_fields(true);
     $extrafields = "$extrafields, $namefields";
 
     // warning: will return UNCONFIRMED USERS
-    return $DB->get_records_sql("SELECT id, username, email, city, country, lastaccess, confirmed, mnethostid, suspended $extrafields
-                                   FROM {user}
+    return $DB->get_records_sql("SELECT id, username, email, city, district, province, lastaccess, confirmed,
+                                  mnethostid, suspended $extrafields
+                                  FROM {user}
                                   WHERE $select
                                   $sort", $params, $page, $recordsperpage);
 

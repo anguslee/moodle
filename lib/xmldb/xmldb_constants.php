@@ -56,6 +56,9 @@ define ('XMLDB_TYPE_BINARY',      6);
 define ('XMLDB_TYPE_DATETIME',    7);
 /** Timestamp */
 define ('XMLDB_TYPE_TIMESTAMP',   8);
+/** Arrays */
+define ('XMLDB_TYPE_INTEGER_ARRAY', 101);
+define ('XMLDB_TYPE_TEXT_ARRAY', 102);
 
 // ==== Now the allowed DB Keys ====
 /** Wrong DB Key */

@@ -370,7 +370,7 @@ class xmldb_index extends xmldb_object {
                     break;
 
                 case XMLDB_TYPE_TEXT:
-                    return 'Invalid index definition in table {'.$xmldb_table->getName(). '}: XMLDB_TYPE_TEXT field "'.$field->getName().'" can not be indexed';
+                    // return 'Invalid index definition in table {'.$xmldb_table->getName(). '}: XMLDB_TYPE_TEXT field "'.$field->getName().'" can not be indexed';
                     break;
 
                 case XMLDB_TYPE_BINARY:

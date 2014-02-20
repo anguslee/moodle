@@ -741,9 +741,36 @@
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
       </KEYS>
     </TABLE>
+    <TABLE NAME="school" COMMENT="Schools">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="20" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="name" TYPE="text" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="unit" COMMENT="Units in schools (班级)">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="20" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="unit_id" TYPE="text" NOTNULL="true"/>
+        <FIELD NAME="belong_school" TYPE="int" LENGTH="20" NOTNULL="true"/>
+        <FIELD NAME="name" TYPE="text" NOTNULL="true"/>
+        <FIELD NAME="flag" TYPE="text" NOTNULL="false"/>
+        <FIELD NAME="homeroom_teacher" TYPE="int" LENGTH="20" NOTNULL="false"/>
+        <FIELD NAME="initial_entry_year" TYPE="int" LENGTH="8" NOTNULL="true" />
+        <FIELD NAME="honors" TYPE="text" NOTNULL="false"/>
+        <FIELD NAME="classroom_location" TYPE="text" NOTNULL="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="belong_school" TYPE="foreign" FIELDS="belong_school" REFTABLE="school" REFFIELDS="id" />
+        <KEY NAME="homeroom_teacher" TYPE="foreign" FIELDS="homeroom_teacher" REFTABLE="user" REFFIELDS="id" />
+      </KEYS>
+    </TABLE>
     <TABLE NAME="user" COMMENT="One record for each person">
       <FIELDS>
-        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="id" TYPE="int" LENGTH="20" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="auth" TYPE="char" LENGTH="20" NOTNULL="true" DEFAULT="manual" SEQUENCE="false"/>
         <FIELD NAME="confirmed" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="policyagreed" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
@@ -752,23 +779,37 @@
         <FIELD NAME="mnethostid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="username" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false"/>
         <FIELD NAME="password" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="idnumber" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="gender" TYPE="text" SEQUENCE="false"/>
+        <FIELD NAME="birthdate" TYPE="datetime" SEQUENCE="false"/>
+        <FIELD NAME="parent1_type" TYPE="text" SEQUENCE="false"/>
+        <FIELD NAME="parent1_name" TYPE="text" SEQUENCE="false"/>
+        <FIELD NAME="parent1_employer" TYPE="text" SEQUENCE="false"/>
+        <FIELD NAME="parent1_email" TYPE="text" SEQUENCE="false"/>
+        <FIELD NAME="parent1_cellphone" TYPE="text" SEQUENCE="false"/>
+        <FIELD NAME="parent2_type" TYPE="text" SEQUENCE="false"/>
+        <FIELD NAME="parent2_name" TYPE="text" SEQUENCE="false"/>
+        <FIELD NAME="parent2_employer" TYPE="text" SEQUENCE="false"/>
+        <FIELD NAME="parent2_email" TYPE="text" SEQUENCE="false"/>
+        <FIELD NAME="parent2_cellphone" TYPE="text" SEQUENCE="false"/>
+        <FIELD NAME="ssn_id" TYPE="text" SEQUENCE="false"/>
+        <FIELD NAME="student_id" TYPE="text" SEQUENCE="false"/>
+        <FIELD NAME="belong_school" TYPE="int" LENGTH="20" NOTNULL="false" />
         <FIELD NAME="firstname" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false"/>
         <FIELD NAME="lastname" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="email" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="email" TYPE="char" LENGTH="100" SEQUENCE="false"/>
         <FIELD NAME="emailstop" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
-        <FIELD NAME="icq" TYPE="char" LENGTH="15" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="skype" TYPE="char" LENGTH="50" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="yahoo" TYPE="char" LENGTH="50" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="aim" TYPE="char" LENGTH="50" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="msn" TYPE="char" LENGTH="50" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="phone1" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="phone2" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="institution" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="department" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="address" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="city" TYPE="char" LENGTH="120" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="country" TYPE="char" LENGTH="2" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="qq" TYPE="text" SEQUENCE="false"/>
+        <FIELD NAME="weixin" TYPE="text" SEQUENCE="false"/>
+        <FIELD NAME="entry_year" TYPE="int" LENGTH="8" NOTNULL="false"/>
+        <FIELD NAME="unit_id" TYPE="int" LENGTH="20" NOTNULL="false" />
+        <FIELD NAME="positions" TYPE="text[]" SEQUENCE="false"/>
+        <FIELD NAME="cellphone" TYPE="text" SEQUENCE="false"/>
+        <FIELD NAME="street_address" TYPE="text" SEQUENCE="false"/>
+        <FIELD NAME="district" TYPE="text" SEQUENCE="false"/>
+        <FIELD NAME="city" TYPE="text" SEQUENCE="false"/>
+        <FIELD NAME="province" TYPE="text" SEQUENCE="false"/>
+        <FIELD NAME="postal_code" TYPE="text" SEQUENCE="false"/>
+        <FIELD NAME="hukou" TYPE="text" SEQUENCE="false"/>
         <FIELD NAME="lang" TYPE="char" LENGTH="30" NOTNULL="true" DEFAULT="en" SEQUENCE="false"/>
         <FIELD NAME="calendartype" TYPE="char" LENGTH="30" NOTNULL="true" DEFAULT="gregorian" SEQUENCE="false"/>
         <FIELD NAME="theme" TYPE="char" LENGTH="50" NOTNULL="true" SEQUENCE="false"/>
@@ -799,19 +840,28 @@
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="belong_school" TYPE="foreign" FIELDS="belong_school" REFTABLE="school" REFFIELDS="id" />
+        <KEY NAME="unit_id" TYPE="foreign" FIELDS="unit_id" REFTABLE="unit" REFFIELDS="id" />
       </KEYS>
       <INDEXES>
+        <INDEX NAME="qq" UNIQUE="false" FIELDS="qq"/>
+        <INDEX NAME="weixin" UNIQUE="false" FIELDS="weixin"/>
+        <INDEX NAME="entry_year" UNIQUE="false" FIELDS="entry_year"/>
+        <INDEX NAME="positions" UNIQUE="false" FIELDS="positions"/>
+        <INDEX NAME="cellphone" UNIQUE="false" FIELDS="cellphone"/>
+        <INDEX NAME="district" UNIQUE="false" FIELDS="district"/>
+        <INDEX NAME="city" UNIQUE="false" FIELDS="city"/>
+        <INDEX NAME="province" UNIQUE="false" FIELDS="province"/>
+        <INDEX NAME="postal_code" UNIQUE="false" FIELDS="postal_code"/>
         <INDEX NAME="username" UNIQUE="true" FIELDS="mnethostid, username"/>
         <INDEX NAME="deleted" UNIQUE="false" FIELDS="deleted"/>
         <INDEX NAME="confirmed" UNIQUE="false" FIELDS="confirmed"/>
         <INDEX NAME="firstname" UNIQUE="false" FIELDS="firstname"/>
         <INDEX NAME="lastname" UNIQUE="false" FIELDS="lastname"/>
-        <INDEX NAME="city" UNIQUE="false" FIELDS="city"/>
-        <INDEX NAME="country" UNIQUE="false" FIELDS="country"/>
         <INDEX NAME="lastaccess" UNIQUE="false" FIELDS="lastaccess"/>
         <INDEX NAME="email" UNIQUE="false" FIELDS="email"/>
         <INDEX NAME="auth" UNIQUE="false" FIELDS="auth"/>
-        <INDEX NAME="idnumber" UNIQUE="false" FIELDS="idnumber"/>
+        <INDEX NAME="ssn_id" UNIQUE="false" FIELDS="ssn_id"/>
         <INDEX NAME="firstnamephonetic" UNIQUE="false" FIELDS="firstnamephonetic"/>
         <INDEX NAME="lastnamephonetic" UNIQUE="false" FIELDS="lastnamephonetic"/>
         <INDEX NAME="middlename" UNIQUE="false" FIELDS="middlename"/>

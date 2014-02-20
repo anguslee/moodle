@@ -206,6 +206,13 @@ class postgres_sql_generator extends sql_generator {
             case XMLDB_TYPE_DATETIME:
                 $dbtype = 'TIMESTAMP';
                 break;
+            case XMLDB_TYPE_INTEGER_ARRAY:
+                $dbtype = 'INT[]';
+                break;
+            case XMLDB_TYPE_TEXT_ARRAY:
+                $dbtype = 'TEXT[]';
+                break;
+                
         }
         return $dbtype;
     }
