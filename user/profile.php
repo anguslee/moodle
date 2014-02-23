@@ -251,16 +251,6 @@ if (!isset($hiddenfields['country']) && $user->country) {
     echo html_writer::tag('dd', get_string($user->country, 'countries'));
 }
 
-if (!isset($hiddenfields['city']) && $user->city) {
-    echo html_writer::tag('dt', get_string('city'));
-    echo html_writer::tag('dd', $user->city);
-}
-
-if (isset($identityfields['address']) && $user->address) {
-    echo html_writer::tag('dt', get_string('address'));
-    echo html_writer::tag('dd', $user->address);
-}
-
 if (isset($identityfields['phone1']) && $user->phone1) {
     echo html_writer::tag('dt', get_string('phone'));
     echo html_writer::tag('dd', $user->phone1);
@@ -290,18 +280,8 @@ if (isset($identityfields['email']) and ($currentuser
   or $user->maildisplay == 1
   or has_capability('moodle/course:useremail', $context)
   or ($user->maildisplay == 2 and enrol_sharing_course($user, $USER)))) {
-    echo html_writer::tag('dt', get_string('email'));
+    echo html_writer::tag('dt', 'Email');
     echo html_writer::tag('dd', obfuscate_mailto($user->email, ''));
-}
-
-if ($user->url && !isset($hiddenfields['webpage'])) {
-    $url = $user->url;
-    if (strpos($user->url, '://') === false) {
-        $url = 'http://'. $url;
-    }
-    $webpageurl = new moodle_url($url);
-    echo html_writer::tag('dt', get_string('webpage'));
-    echo html_writer::tag('dd', html_writer::link($webpageurl, s($user->url)));
 }
 
 if ($user->icq && !isset($hiddenfields['icqnumber'])) {
@@ -343,36 +323,84 @@ if ($user->msn && !isset($hiddenfields['msnid'])) {
 
 // demonstrates zhulou custom fields
 
-echo html_writer::tag('dt', 'Gender');
-echo html_writer::tag('dd', '男(M)');
+if ($user->gender && !isset($hiddenfields['gender'])) {
+    echo html_writer::tag('dt', '性别');
+    echo html_writer::tag('dd', $user->gender);
+}
 
-echo html_writer::tag('dt', 'Birthday');
-echo html_writer::tag('dd', '1983/05/16');
+if ($user->birthdate && !isset($hiddenfields['birthdate'])) {
+    echo html_writer::tag('dt', '出生日期');
+    echo html_writer::tag('dd', $user->birthdate);
+}
 
-echo html_writer::tag('dt', 'Address');
-echo html_writer::tag('dd', '5 xx Road, Heping, Shenyang, Liaoning, 110023');
+if (($user->city || $user->street_address || $user->district || $user->province || $user->postal_code)
+    && !isset($hiddenfields['address'])) {
+    echo html_writer::tag('dt', '住址');
+    echo html_writer::tag('dd', $user->province . $user->city . $user->district .
+                          $user->street_address . ($user->postal_code ? ", " . $user->postal_code : ""));
+}
 
-echo html_writer::tag('dt', 'Parents');
-echo html_writer::tag('dd',
-                      html_writer::tag('table',
-                                       html_writer::tag('tr',
-                                                        html_writer::tag('td', 'James Bond') .
-                                                        html_writer::tag('td', 'jbond@gmail.com') .
-                                                        html_writer::tag('td', '121-813-1121')) .
-                                       html_writer::tag('tr',
-                                                        html_writer::tag('td', 'Michael Jordan') .
-                                                        html_writer::tag('td', 'mj@gmail.com') .
-                                                        html_writer::tag('td', '121-813-2121')), 
-                                       array("border" => "1"))
-                      );
-echo html_writer::tag('dt', '户口(Hukou)');
-echo html_writer::tag('dd', 'Heping');
+if (($user->parent1_name || $user->parent2_name)
+    && !isset($hiddenfields['parents'])) {
+    echo html_writer::tag('dt', '家长');
+    $table = new html_table();
+    $table->head = array ('姓名', '学生关系', '工作单位', '电话', 'Email');
+    $table->attributes = array('border' => '1');
+    $row1 = $user->parent1_name ? array($user->parent1_name, $user->parent1_type, $user->parent1_employer,
+                                        $user->parent1_cellphone, $user->parent1_email) : NULL;
+    $row2 = $user->parent2_name ? array($user->parent2_name, $user->parent2_type, $user->parent2_employer,
+                                        $user->parent2_cellphone, $user->parent2_email) : NULL;
+    $rows = array();
+    if ($row1) {
+        $rows[] = $row1;
+    }
+    if ($row2) {
+        $rows[] = $row2;
+    }
+    $table->data = $rows;
+    
+    echo html_writer::tag('dd', html_writer::table($table));
+}
 
-echo html_writer::tag("dt", "Positions");
-echo html_writer::tag("dd", html_writer::tag("table",
-                                             html_writer::tag("tr", html_writer::tag("td", "Sports Monitor")) .
-                                             html_writer::tag("tr", html_writer::tag("td", "Math Monitor")),
-                                             array("border" => "1")));
+if ($user->hukou && !isset ($hiddenfields['hukou'])) {
+    echo html_writer::tag('dt', '户口学校');
+    echo html_writer::tag('dd', $user->hukou);
+}
+
+if ($user->positions && !isset ($hiddenfields['positions'])) {
+    echo html_writer::tag("dt", "职务");
+    echo html_writer::tag("dd", trim($user->positions, "{}") );
+}
+
+if ($user->qq && !isset ($hiddenfields['qq'])) {
+    echo html_writer::tag("dt", "QQ");
+    echo html_writer::tag("dd", $user->qq);
+}
+
+if ($user->weixin && !isset ($hiddenfields['weixin'])) {
+    echo html_writer::tag("dt", "微信");
+    echo html_writer::tag("dd", $user->weixin);
+}
+
+if ($user->cellphone && !isset ($hiddenfields['cellphone'])) {
+    echo html_writer::tag("dt", "手机号码");
+    echo html_writer::tag("dd", $user->cellphone);
+}
+
+if ($user->student_id && !isset ($hiddenfields['student_id'])) {
+    echo html_writer::tag("dt", "学号");
+    echo html_writer::tag("dd", $user->student_id);
+}
+
+if ($user->ssn_id && !isset ($hiddenfields['ssn_id'])) {
+    echo html_writer::tag("dt", "证件号");
+    echo html_writer::tag("dd", $user->ssn_id);
+}
+
+if ($user->entry_year && !isset ($hiddenfields['entry_year'])) {
+    echo html_writer::tag("dt", "入学年份");
+    echo html_writer::tag("dd", $user->entry_year);
+}
 
 // end demo
 
