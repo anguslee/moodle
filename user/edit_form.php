@@ -43,6 +43,7 @@ class user_edit_form extends moodleform {
 
         /// shared fields
         useredit_shared_definition($mform, $editoroptions, $filemanageroptions);
+        /* print_r($this->_form->exportValues()); */
 
         /// extra settigs
         if (!empty($CFG->disableuserimages)) {
@@ -53,7 +54,7 @@ class user_edit_form extends moodleform {
 
         /// Next the customisable profile fields
         profile_definition($mform, $userid);
-
+        
         $this->add_action_buttons(false, get_string('updatemyprofile'));
     }
 
@@ -96,6 +97,9 @@ class user_edit_form extends moodleform {
             if ($mform->elementExists('deletepicture') && !$hasuploadedpicture) {
                 $mform->removeElement('deletepicture');
             }
+
+            // print_r($mform->elementExists('firstname'));
+            // print_r($mform->exportValues());
 
             /// disable fields that are locked by auth plugins
             $fields = get_user_fieldnames();

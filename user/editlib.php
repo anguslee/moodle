@@ -130,18 +130,35 @@ function useredit_shared_definition(&$mform, $editoroptions = null, $filemanager
     $strrequired = get_string('required');
 
     // Add the necessary names.
-    foreach (useredit_get_required_name_fields() as $fullname) {
-        $mform->addElement('text', $fullname,  get_string($fullname),  'maxlength="100" size="30"');
-        $mform->addRule($fullname, $strrequired, 'required', null, 'client');
-        $mform->setType($fullname, PARAM_NOTAGS);
-    }
+    /* foreach (useredit_get_required_name_fields() as $fullname) { */
+    /*     $mform->addElement('text', $fullname,  get_string($fullname),  'maxlength="100" size="30"'); */
+    /*     $mform->addRule($fullname, $strrequired, 'required', null, 'client'); */
+    /*     $mform->setType($fullname, PARAM_NOTAGS); */
+    /* } */
 
-    $enabledusernamefields = useredit_get_enabled_name_fields();
-    // Add the enabled additional name fields.
-    foreach ($enabledusernamefields as $addname) {
-        $mform->addElement('text', $addname,  get_string($addname), 'maxlength="100" size="30"');
-        $mform->setType($addname, PARAM_NOTAGS);
-    }
+    $mform->addElement('text', 'lastname',  '姓氏',  'maxlength="100" size="30"');
+    $mform->addRule('lastname', $strrequired, 'required', null, 'client');
+    $mform->setType('lastname', PARAM_NOTAGS);
+
+    $mform->addElement('text', 'firstname',  '名字',  'maxlength="100" size="30"');
+    $mform->addRule('firstname', $strrequired, 'required', null, 'client');
+    $mform->setType('firstname', PARAM_NOTAGS);
+
+    $mform->addElement('text', 'entry_year', '入学年份', 'maxlength="20" size="25"');
+    $mform->addRule('entry_year', $strrequired, 'required', null, 'client');
+    $mform->setType('entry_year', PARAM_INT);
+
+    $mform->addElement('text', 'unit_id', '所属班级', 'maxlength="255" size="25"');
+    $mform->addRule('unit_id', $strrequired, 'required', null, 'client');
+    $mform->setType('unit_id', PARAM_TEXT);
+
+
+    /* $enabledusernamefields = useredit_get_enabled_name_fields(); */
+    /* // Add the enabled additional name fields. */
+    /* foreach ($enabledusernamefields as $addname) { */
+    /*     $mform->addElement('text', $addname,  get_string($addname), 'maxlength="100" size="30"'); */
+    /*     $mform->setType($addname, PARAM_NOTAGS); */
+    /* } */
 
     // Do not show email field if change confirmation is pending
     if (!empty($CFG->emailchangeconfirmation) and !empty($user->preference_newemail)) {
@@ -150,201 +167,219 @@ function useredit_shared_definition(&$mform, $editoroptions = null, $filemanager
                 . get_string('emailchangecancel', 'auth') . '</a>';
         $mform->addElement('static', 'emailpending', get_string('email'), $notice);
     } else {
-        $mform->addElement('text', 'email', get_string('email'), 'maxlength="100" size="30"');
-        $mform->addRule('email', $strrequired, 'required', null, 'client');
+        $mform->addElement('text', 'email', 'Email', 'maxlength="100" size="30"');
         $mform->setType('email', PARAM_EMAIL);
     }
 
-    $choices = array();
-    $choices['0'] = get_string('emaildisplayno');
-    $choices['1'] = get_string('emaildisplayyes');
-    $choices['2'] = get_string('emaildisplaycourse');
-    $mform->addElement('select', 'maildisplay', get_string('emaildisplay'), $choices);
-    $mform->setDefault('maildisplay', 2);
+    /* $choices = array(); */
+    /* $choices['0'] = get_string('emaildisplayno'); */
+    /* $choices['1'] = get_string('emaildisplayyes'); */
+    /* $choices['2'] = get_string('emaildisplaycourse'); */
+    /* $mform->addElement('select', 'maildisplay', get_string('emaildisplay'), $choices); */
+    /* $mform->setDefault('maildisplay', 2); */
 
-    $choices = array();
-    $choices['0'] = get_string('textformat');
-    $choices['1'] = get_string('htmlformat');
-    $mform->addElement('select', 'mailformat', get_string('emailformat'), $choices);
-    $mform->setDefault('mailformat', 1);
+    /* $choices = array(); */
+    /* $choices['0'] = get_string('textformat'); */
+    /* $choices['1'] = get_string('htmlformat'); */
+    /* $mform->addElement('select', 'mailformat', get_string('emailformat'), $choices); */
+    /* $mform->setDefault('mailformat', 1); */
 
-    if (!empty($CFG->allowusermailcharset)) {
-        $choices = array();
-        $charsets = get_list_of_charsets();
-        if (!empty($CFG->sitemailcharset)) {
-            $choices['0'] = get_string('site').' ('.$CFG->sitemailcharset.')';
-        } else {
-            $choices['0'] = get_string('site').' (UTF-8)';
-        }
-        $choices = array_merge($choices, $charsets);
-        $mform->addElement('select', 'preference_mailcharset', get_string('emailcharset'), $choices);
-    }
+    /* if (!empty($CFG->allowusermailcharset)) { */
+    /*     $choices = array(); */
+    /*     $charsets = get_list_of_charsets(); */
+    /*     if (!empty($CFG->sitemailcharset)) { */
+    /*         $choices['0'] = get_string('site').' ('.$CFG->sitemailcharset.')'; */
+    /*     } else { */
+    /*         $choices['0'] = get_string('site').' (UTF-8)'; */
+    /*     } */
+    /*     $choices = array_merge($choices, $charsets); */
+    /*     $mform->addElement('select', 'preference_mailcharset', get_string('emailcharset'), $choices); */
+    /* } */
 
-    $choices = array();
-    $choices['0'] = get_string('emaildigestoff');
-    $choices['1'] = get_string('emaildigestcomplete');
-    $choices['2'] = get_string('emaildigestsubjects');
-    $mform->addElement('select', 'maildigest', get_string('emaildigest'), $choices);
-    $mform->setDefault('maildigest', 0);
-    $mform->addHelpButton('maildigest', 'emaildigest');
+    /* $choices = array(); */
+    /* $choices['0'] = get_string('emaildigestoff'); */
+    /* $choices['1'] = get_string('emaildigestcomplete'); */
+    /* $choices['2'] = get_string('emaildigestsubjects'); */
+    /* $mform->addElement('select', 'maildigest', get_string('emaildigest'), $choices); */
+    /* $mform->setDefault('maildigest', 0); */
+    /* $mform->addHelpButton('maildigest', 'emaildigest'); */
 
-    $choices = array();
-    $choices['1'] = get_string('autosubscribeyes');
-    $choices['0'] = get_string('autosubscribeno');
-    $mform->addElement('select', 'autosubscribe', get_string('autosubscribe'), $choices);
-    $mform->setDefault('autosubscribe', 1);
+    /* $choices = array(); */
+    /* $choices['1'] = get_string('autosubscribeyes'); */
+    /* $choices['0'] = get_string('autosubscribeno'); */
+    /* $mform->addElement('select', 'autosubscribe', get_string('autosubscribe'), $choices); */
+    /* $mform->setDefault('autosubscribe', 1); */
 
-    if (!empty($CFG->forum_trackreadposts)) {
-        $choices = array();
-        $choices['0'] = get_string('trackforumsno');
-        $choices['1'] = get_string('trackforumsyes');
-        $mform->addElement('select', 'trackforums', get_string('trackforums'), $choices);
-        $mform->setDefault('trackforums', 0);
-    }
+    /* if (!empty($CFG->forum_trackreadposts)) { */
+    /*     $choices = array(); */
+    /*     $choices['0'] = get_string('trackforumsno'); */
+    /*     $choices['1'] = get_string('trackforumsyes'); */
+    /*     $mform->addElement('select', 'trackforums', get_string('trackforums'), $choices); */
+    /*     $mform->setDefault('trackforums', 0); */
+    /* } */
 
-    $editors = editors_get_enabled();
-    if (count($editors) > 1) {
-        $choices = array('' => get_string('defaulteditor'));
-        $firsteditor = '';
-        foreach (array_keys($editors) as $editor) {
-            if (!$firsteditor) {
-                $firsteditor = $editor;
-            }
-            $choices[$editor] = get_string('pluginname', 'editor_' . $editor);
-        }
-        $mform->addElement('select', 'preference_htmleditor', get_string('textediting'), $choices);
-        $mform->setDefault('preference_htmleditor', '');
-    } else {
-        // Empty string means use the first chosen text editor.
-        $mform->addElement('hidden', 'preference_htmleditor');
-        $mform->setDefault('preference_htmleditor', '');
-        $mform->setType('preference_htmleditor', PARAM_PLUGIN);
-    }
+    /* $editors = editors_get_enabled(); */
+    /* if (count($editors) > 1) { */
+    /*     $choices = array('' => get_string('defaulteditor')); */
+    /*     $firsteditor = ''; */
+    /*     foreach (array_keys($editors) as $editor) { */
+    /*         if (!$firsteditor) { */
+    /*             $firsteditor = $editor; */
+    /*         } */
+    /*         $choices[$editor] = get_string('pluginname', 'editor_' . $editor); */
+    /*     } */
+    /*     $mform->addElement('select', 'preference_htmleditor', get_string('textediting'), $choices); */
+    /*     $mform->setDefault('preference_htmleditor', ''); */
+    /* } else { */
+    /*     // Empty string means use the first chosen text editor. */
+    /*     $mform->addElement('hidden', 'preference_htmleditor'); */
+    /*     $mform->setDefault('preference_htmleditor', ''); */
+    /*     $mform->setType('preference_htmleditor', PARAM_PLUGIN); */
+    /* } */
 
-    $mform->addElement('text', 'city', get_string('city'), 'maxlength="120" size="21"');
+    $mform->addElement('text', 'url', '个人网站', 'maxlength="255" size="50"');
+    $mform->setType('url', PARAM_URL);
+
+    $mform->addElement('select', 'gender', '性别', array(htmlspecialchars('男') => '男', htmlspecialchars('女') => '女'));
+    $mform->setDefault('gender', $user->gender);
+
+    $mform->addElement('text', 'birthdate', '出生日期', 'maxlength="50" size="25"');
+    $mform->setType('birthdate', PARAM_NOTAGS);
+
+    $mform->addElement('text', 'cellphone', '手机号码', 'maxlength="50" size="25"');
+    $mform->setType('cellphone', PARAM_NOTAGS);
+
+    $mform->addElement('text', 'weixin', '微信', 'maxlength="50" size="25"');
+    $mform->setType('weixin', PARAM_NOTAGS);
+
+    $mform->addElement('text', 'qq', 'QQ', 'maxlength="50" size="25"');
+    $mform->setType('qq', PARAM_NOTAGS);
+
+    $mform->addElement('text', 'street_address', '住址', 'maxlength="50" size="25"');
+    $mform->setType('street_address', PARAM_NOTAGS);
+
+    $mform->addElement('text', 'district', '区县', 'maxlength="50" size="25"');
+    $mform->setType('district', PARAM_NOTAGS);
+
+    $mform->addElement('text', 'city', '城市', 'maxlength="50" size="20"');
     $mform->setType('city', PARAM_TEXT);
     if (!empty($CFG->defaultcity)) {
         $mform->setDefault('city', $CFG->defaultcity);
     }
 
-    $choices = get_string_manager()->get_list_of_countries();
-    $choices= array(''=>get_string('selectacountry').'...') + $choices;
-    $mform->addElement('select', 'country', get_string('selectacountry'), $choices);
-    if (!empty($CFG->country)) {
-        $mform->setDefault('country', $CFG->country);
-    }
+    $mform->addElement('text', 'province', '省份', 'maxlength="50" size="20"');
+    $mform->setType('province', PARAM_NOTAGS);
 
-    $choices = get_list_of_timezones();
-    $choices['99'] = get_string('serverlocaltime');
-    if ($CFG->forcetimezone != 99) {
-        $mform->addElement('static', 'forcedtimezone', get_string('timezone'), $choices[$CFG->forcetimezone]);
-    } else {
-        $mform->addElement('select', 'timezone', get_string('timezone'), $choices);
-        $mform->setDefault('timezone', '99');
-    }
+    $mform->addElement('text', 'postal_code', '邮编', 'maxlength="50" size="25"');
+    $mform->setType('postal_code', PARAM_NOTAGS);
 
-    $mform->addElement('select', 'lang', get_string('preferredlanguage'), get_string_manager()->get_list_of_translations());
-    $mform->setDefault('lang', $CFG->lang);
+    $student_relations = array(htmlspecialchars('父亲') => '父亲', htmlspecialchars('母亲') => '母亲',
+                               htmlspecialchars('继父') => '继父', htmlspecialchars('继母') => '继母',
+                               htmlspecialchars('祖父') => '祖父', htmlspecialchars('祖母') => '祖母',
+                               htmlspecialchars('外祖父') => '外祖父', htmlspecialchars('外祖母') => '外祖母',
+                               htmlspecialchars('其他') => '其他关系');
+
+    $mform->addElement('text', 'parent1_name', '家长姓名-1', 'maxlength="50" size="25"');
+    $mform->setType('parent1_name', PARAM_TEXT);
+
+    $mform->addElement('text', 'parent1_cellphone', '家长联系电话-1', 'maxlength="50" size="25"');
+    $mform->setType('parent1_cellphone', PARAM_TEXT);
+    
+    $mform->addElement('text', 'parent1_employer', '家长工作单位-1', 'maxlength="255" size="25"');
+    $mform->setType('parent1_employer', PARAM_TEXT);
+    
+    $mform->addElement('text', 'parent1_email', '家长Email-1', 'maxlength="255" size="25"');
+    $mform->setType('parent1_email', PARAM_EMAIL);
+
+    $mform->addElement('select', 'parent1_type', '与学生关系-1', $student_relations);
+    $mform->setDefault('parent1_type', $user->parent1_type);
+
+    $mform->addElement('text', 'parent2_name', '家长姓名-2', 'maxlength="50" size="25"');
+    $mform->setType('parent2_name', PARAM_TEXT);
+
+    $mform->addElement('text', 'parent2_cellphone', '家长联系电话-2', 'maxlength="50" size="25"');
+    $mform->setType('parent2_cellphone', PARAM_TEXT);
+    
+    $mform->addElement('text', 'parent2_employer', '家长工作单位-2', 'maxlength="255" size="25"');
+    $mform->setType('parent2_employer', PARAM_TEXT);
+    
+    $mform->addElement('text', 'parent2_email', '家长Email-2', 'maxlength="255" size="25"');
+    $mform->setType('parent2_email', PARAM_EMAIL);
+
+    $mform->addElement('select', 'parent2_type', '与学生关系-2', $student_relations);
+    $mform->setDefault('parent2_type', $user->parent2_type);
+
+    $mform->addElement('text', 'student_id', '学号', 'maxlength="255" size="25"');
+    $mform->setType('student_id', PARAM_TEXT);
+
+    $mform->addElement('text', 'ssn_id', '证件号', 'maxlength="255" size="25"');
+    $mform->setType('ssn_id', PARAM_TEXT);
+
+    $mform->addElement('text', 'hukou', '户口', 'maxlength="255" size="25"');
+    $mform->setType('hukou', PARAM_TEXT);
 
     // Multi-Calendar Support - see MDL-18375.
-    $calendartypes = \core_calendar\type_factory::get_list_of_calendar_types();
-    // We do not want to show this option unless there is more than one calendar type to display.
-    if (count($calendartypes) > 1) {
-        $mform->addElement('select', 'calendartype', get_string('preferredcalendar', 'calendar'), $calendartypes);
-    }
+    /* $calendartypes = \core_calendar\type_factory::get_list_of_calendar_types(); */
+    /* // We do not want to show this option unless there is more than one calendar type to display. */
+    /* if (count($calendartypes) > 1) { */
+    /*     $mform->addElement('select', 'calendartype', get_string('preferredcalendar', 'calendar'), $calendartypes); */
+    /* } */
 
-    if (!empty($CFG->allowuserthemes)) {
-        $choices = array();
-        $choices[''] = get_string('default');
-        $themes = get_list_of_themes();
-        foreach ($themes as $key=>$theme) {
-            if (empty($theme->hidefromselector)) {
-                $choices[$key] = get_string('pluginname', 'theme_'.$theme->name);
-            }
-        }
-        $mform->addElement('select', 'theme', get_string('preferredtheme'), $choices);
-    }
+    /* if (!empty($CFG->allowuserthemes)) { */
+    /*     $choices = array(); */
+    /*     $choices[''] = get_string('default'); */
+    /*     $themes = get_list_of_themes(); */
+    /*     foreach ($themes as $key=>$theme) { */
+    /*         if (empty($theme->hidefromselector)) { */
+    /*             $choices[$key] = get_string('pluginname', 'theme_'.$theme->name); */
+    /*         } */
+    /*     } */
+    /*     $mform->addElement('select', 'theme', get_string('preferredtheme'), $choices); */
+    /* } */
 
     $mform->addElement('editor', 'description_editor', get_string('userdescription'), null, $editoroptions);
     $mform->setType('description_editor', PARAM_CLEANHTML);
     $mform->addHelpButton('description_editor', 'userdescription');
 
+    $mform->addElement('hidden', 'lang', get_string('preferredlanguage'), get_string_manager()->get_list_of_translations());
+    $mform->setDefault('lang', $CFG->lang);
+
     if (empty($USER->newadminuser)) {
-        $mform->addElement('header', 'moodle_picture', get_string('pictureofuser'));
+        /* if (!empty($CFG->enablegravatar)) { */
+        /*     $mform->addElement('html', html_writer::tag('p', get_string('gravatarenabled'))); */
+        /* } */
 
-        if (!empty($CFG->enablegravatar)) {
-            $mform->addElement('html', html_writer::tag('p', get_string('gravatarenabled')));
-        }
+        $mform->addElement('hidden', 'currentpicture', get_string('currentpicture'));
 
-        $mform->addElement('static', 'currentpicture', get_string('currentpicture'));
+        /* $mform->addElement('checkbox', 'deletepicture', get_string('delete')); */
+        /* $mform->setDefault('deletepicture', 0); */
 
-        $mform->addElement('checkbox', 'deletepicture', get_string('delete'));
-        $mform->setDefault('deletepicture', 0);
+        /* $mform->addElement('filemanager', 'imagefile', get_string('newpicture'), '', $filemanageroptions); */
+        /* $mform->addHelpButton('imagefile', 'newpicture'); */
 
-        $mform->addElement('filemanager', 'imagefile', get_string('newpicture'), '', $filemanageroptions);
-        $mform->addHelpButton('imagefile', 'newpicture');
-
-        $mform->addElement('text', 'imagealt', get_string('imagealt'), 'maxlength="100" size="30"');
-        $mform->setType('imagealt', PARAM_TEXT);
+        /* $mform->addElement('text', 'imagealt', get_string('imagealt'), 'maxlength="100" size="30"'); */
+        /* $mform->setType('imagealt', PARAM_TEXT); */
 
     }
 
     // Display user name fields that are not currenlty enabled here if there are any.
-    $disabledusernamefields = useredit_get_disabled_name_fields($enabledusernamefields);
-    if (count($disabledusernamefields) > 0) {
-        $mform->addElement('header', 'moodle_additional_names', get_string('additionalnames'));
-        foreach ($disabledusernamefields as $allname) {
-            $mform->addElement('text', $allname, get_string($allname), 'maxlength="100" size="30"');
-            $mform->setType($allname, PARAM_NOTAGS);
-        }
-    }
+    /* $disabledusernamefields = useredit_get_disabled_name_fields($enabledusernamefields); */
+    /* if (count($disabledusernamefields) > 0) { */
+    /*     $mform->addElement('header', 'moodle_additional_names', get_string('additionalnames')); */
+    /*     foreach ($disabledusernamefields as $allname) { */
+    /*         $mform->addElement('text', $allname, get_string($allname), 'maxlength="100" size="30"'); */
+    /*         $mform->setType($allname, PARAM_NOTAGS); */
+    /*     } */
+    /* } */
 
-    if (!empty($CFG->usetags) and empty($USER->newadminuser)) {
-        $mform->addElement('header', 'moodle_interests', get_string('interests'));
-        $mform->addElement('tags', 'interests', get_string('interestslist'), array('display' => 'noofficial'));
-        $mform->addHelpButton('interests', 'interestslist');
-    }
+    /* if (!empty($CFG->usetags) and empty($USER->newadminuser)) { */
+    /*     $mform->addElement('header', 'moodle_interests', get_string('interests')); */
+    /*     $mform->addElement('tags', 'interests', get_string('interestslist'), array('display' => 'noofficial')); */
+    /*     $mform->addHelpButton('interests', 'interestslist'); */
+    /* } */
 
     /// Moodle optional fields
-    $mform->addElement('header', 'moodle_optional', get_string('optional', 'form'));
-
-    $mform->addElement('text', 'url', get_string('webpage'), 'maxlength="255" size="50"');
-    $mform->setType('url', PARAM_URL);
-
-    $mform->addElement('text', 'icq', get_string('icqnumber'), 'maxlength="15" size="25"');
-    $mform->setType('icq', PARAM_NOTAGS);
-
-    $mform->addElement('text', 'skype', get_string('skypeid'), 'maxlength="50" size="25"');
-    $mform->setType('skype', PARAM_NOTAGS);
-
-    $mform->addElement('text', 'aim', get_string('aimid'), 'maxlength="50" size="25"');
-    $mform->setType('aim', PARAM_NOTAGS);
-
-    $mform->addElement('text', 'yahoo', get_string('yahooid'), 'maxlength="50" size="25"');
-    $mform->setType('yahoo', PARAM_NOTAGS);
-
-    $mform->addElement('text', 'msn', get_string('msnid'), 'maxlength="50" size="25"');
-    $mform->setType('msn', PARAM_NOTAGS);
-
-    $mform->addElement('text', 'idnumber', get_string('idnumber'), 'maxlength="255" size="25"');
-    $mform->setType('idnumber', PARAM_NOTAGS);
-
-    $mform->addElement('text', 'institution', get_string('institution'), 'maxlength="255" size="25"');
-    $mform->setType('institution', PARAM_TEXT);
-
-    $mform->addElement('text', 'department', get_string('department'), 'maxlength="255" size="25"');
-    $mform->setType('department', PARAM_TEXT);
-
-    $mform->addElement('text', 'phone1', get_string('phone'), 'maxlength="20" size="25"');
-    $mform->setType('phone1', PARAM_NOTAGS);
-
-    $mform->addElement('text', 'phone2', get_string('phone2'), 'maxlength="20" size="25"');
-    $mform->setType('phone2', PARAM_NOTAGS);
-
-    $mform->addElement('text', 'address', get_string('address'), 'maxlength="255" size="25"');
-    $mform->setType('address', PARAM_TEXT);
-
-
+    /* $mform->addElement('header', 'moodle_optional', get_string('optional', 'form')); */
 }
 
 /**
@@ -421,4 +456,36 @@ function useredit_get_disabled_name_fields($enabledadditionalusernames = null) {
     return $nonusednamefields;
 }
 
+function unit_edit_shared_definition(&$mform, $unit_id) {
+    global $CFG, $USER, $DB;
 
+    $unit = $DB->get_record('unit', array('id' => $unit_id));
+
+    $strrequired = get_string('required');
+
+    $mform->addElement('text', 'unit_id',  '班级编号',  'maxlength="100" size="30"');
+    $mform->addRule('unit_id', $strrequired, 'required', null, 'client');
+    $mform->setType('unit_id', PARAM_NOTAGS);
+
+    $mform->addElement('text', 'name',  '班级名称',  'maxlength="100" size="30"');
+    $mform->addRule('name', $strrequired, 'required', null, 'client');
+    $mform->setType('name', PARAM_NOTAGS);
+
+    $mform->addElement('text', 'entry_year', '入学年份', 'maxlength="20" size="25"');
+    $mform->addRule('entry_year', $strrequired, 'required', null, 'client');
+    $mform->setType('entry_year', PARAM_INT);
+
+    $mform->addElement('select', 'flag', '类别', array(htmlspecialchars('文') => '文科班',
+                                                       htmlspecialchars('理') => '理科班',
+                                                       htmlspecialchars('N/A') => 'N/A'));
+    $mform->addRule('flag', $strrequired, 'required', null, 'client');
+    $mform->setDefault('flag', $unit->flag);
+    
+    $mform->addElement('text', 'initial_entry_year', '起始年度', 'maxlength="20" size="25"');
+    $mform->addRule('initial_entry_year', $strrequired, 'required', null, 'client');
+    $mform->setType('initial_entry_year', PARAM_INT);
+
+    $mform->addElement('text', 'classroom_location', '教室位置', 'maxlength="255" size="25"');
+    $mform->setType('classroom_location', PARAM_TEXT);
+
+}

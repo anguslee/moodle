@@ -184,10 +184,10 @@ function user_get_users_by_id($userids) {
  */
 function user_get_default_fields() {
     return array( 'id', 'username', 'fullname', 'firstname', 'lastname', 'email',
-        'address', 'phone1', 'phone2', 'icq', 'skype', 'yahoo', 'aim', 'msn', 'department',
-        'institution', 'interests', 'firstaccess', 'lastaccess', 'auth', 'confirmed',
-        'idnumber', 'lang', 'theme', 'timezone', 'mailformat', 'description', 'descriptionformat',
-        'city', 'url', 'country', 'profileimageurlsmall', 'profileimageurl', 'customfields',
+        'street_address', 'cellphone', 'weixin', 'qq', 
+        /* 'institution', 'interests', 'firstaccess', 'lastaccess', 'auth', 'confirmed', */
+        'idnumber', 'theme', 'timezone', 'mailformat', 'description', 'descriptionformat',
+        'city', 'url', 'profileimageurlsmall', 'profileimageurl', 'customfields',
         'groups', 'roles', 'preferences', 'enrolledcourses'
     );
 }
