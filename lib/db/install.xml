@@ -808,6 +808,7 @@
         <FIELD NAME="district" TYPE="text" SEQUENCE="false"/>
         <FIELD NAME="city" TYPE="text" SEQUENCE="false"/>
         <FIELD NAME="province" TYPE="text" SEQUENCE="false"/>
+        <FIELD NAME="country" TYPE="text" SEQUENCE="false"/>
         <FIELD NAME="postal_code" TYPE="text" SEQUENCE="false"/>
         <FIELD NAME="hukou" TYPE="text" SEQUENCE="false"/>
         <FIELD NAME="lang" TYPE="char" LENGTH="30" NOTNULL="true" DEFAULT="en" SEQUENCE="false"/>
