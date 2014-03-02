@@ -342,6 +342,7 @@ $string['invalidshortname'] = 'That\'s an invalid short course name';
 $string['invalidstatedetected'] = 'Something has gone wrong: {$a}. This should never normally happen.';
 $string['invalidsourcefield'] = 'Draft file\'s source field is invalid';
 $string['invalidurl'] = 'Invalid URL';
+$string['invalidunit'] = 'Invalid Unit';
 $string['invaliduser'] = 'Invalid user';
 $string['invaliduserid'] = 'Invalid user id';
 $string['invaliduserfield'] = 'Invalid user field: {$a}';

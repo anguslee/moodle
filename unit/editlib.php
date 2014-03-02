@@ -19,15 +19,10 @@ function unit_edit_shared_definition(&$mform, $unit_id) {
     $mform->addRule('name', $strrequired, 'required', null, 'client');
     $mform->setType('name', PARAM_NOTAGS);
 
-    $mform->addElement('text', 'entry_year', '入学年份', 'maxlength="20" size="25"');
-    $mform->addRule('entry_year', $strrequired, 'required', null, 'client');
-    $mform->setType('entry_year', PARAM_INT);
-
-    $mform->addElement('select', 'flag', '类别', array(htmlspecialchars('文') => '文科班',
-                                                       htmlspecialchars('理') => '理科班',
+    $mform->addElement('select', 'flag', '类别', array(htmlspecialchars('文科') => '文科班',
+                                                       htmlspecialchars('理科') => '理科班',
                                                        htmlspecialchars('N/A') => 'N/A'));
     $mform->addRule('flag', $strrequired, 'required', null, 'client');
-    $mform->setDefault('flag', 'N/A');
     
     $mform->addElement('text', 'initial_entry_year', '起始年度', 'maxlength="20" size="25"');
     $mform->addRule('initial_entry_year', $strrequired, 'required', null, 'client');
@@ -35,5 +30,4 @@ function unit_edit_shared_definition(&$mform, $unit_id) {
 
     $mform->addElement('text', 'classroom_location', '教室位置', 'maxlength="255" size="25"');
     $mform->setType('classroom_location', PARAM_TEXT);
-
 }

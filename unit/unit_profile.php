@@ -40,7 +40,7 @@ if ((!$user = $DB->get_record('user', array('id' => $userid))) || ($user->delete
 if (!$unit = $DB->get_record('unit', array('id' => $unitid))) {
     $PAGE->set_context(context_system::instance());
     echo $OUTPUT->header();
-    echo $OUTPUT->notification(get_string('invaliduser', 'error'));
+    echo $OUTPUT->notification(get_string('invalidunit', 'error'));
     echo $OUTPUT->footer();
     die;
 }
