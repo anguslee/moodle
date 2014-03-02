@@ -116,7 +116,7 @@ $unitform->set_data($unit);
 
 if ($unitnew = $unitform->get_data()) {
     // save and edit
-    print_r($unitnew);
+    // print_r($unitnew);
     unit_update_unit($unitnew);
 }
 
