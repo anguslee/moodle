@@ -10,6 +10,7 @@ require_once('./editlib.php');
 class unit_edit_form extends moodleform {
     function definition() {
         unit_edit_shared_definition($this->_form, $this->_id);
+        $this->add_action_buttons(false, get_string('updatemyprofile'));
     }
 
     function unit_edit_form($unit_id) {

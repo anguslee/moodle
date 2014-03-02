@@ -9,6 +9,9 @@ function unit_edit_shared_definition(&$mform, $unit_id) {
 
     $unit = $DB->get_record('unit', array('id' => $unit_id));
 
+    $mform->addElement('hidden', 'id');
+    $mform->setType('id', PARAM_INT);
+
     $strrequired = get_string('required');
 
     $mform->addElement('text', 'unit_id',  '班级编号',  'maxlength="100" size="30"');
