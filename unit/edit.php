@@ -25,6 +25,7 @@
 require_once('../config.php');
 require_once($CFG->libdir.'/gdlib.php');
 require_once($CFG->dirroot.'/unit/edit_form.php');
+require_once($CFG->dirroot.'/unit/lib.php');
 
 /* echo $CFG->dirroot.'/unit/edit_form.php'; */
 
@@ -116,6 +117,7 @@ $unitform->set_data($unit);
 if ($unitnew = $unitform->get_data()) {
     // save and edit
     print_r($unitnew);
+    unit_update_unit($unitnew);
 }
 
 
