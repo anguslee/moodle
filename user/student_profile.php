@@ -56,12 +56,12 @@ if (!empty($CFG->forceloginforprofiles)) {
 }
 
 $userid = $userid ? $userid : $USER->id;       // Owner of the page
-list($where_clause, $params) = $DB->where_clause('user', array('mdl_user.id' => $userid));
+list($where_clause, $params) = $DB->where_clause('user', array('{user}.id' => $userid));
 if ($where_clause) {
     $where_clause = "WHERE $where_clause";
 }
 
-$sql = "SELECT mdl_user.*, mdl_unit.name as unit_name FROM mdl_user inner join mdl_unit on mdl_user.unit_id = mdl_unit.id "
+$sql = "SELECT {user}.*, {unit}.name as unit_name FROM {user} inner join {unit} on {user}.unit_id = {unit}.id "
         . $where_clause;
 $user = $DB->get_record_sql($sql, $params);
 if (!$user || ($user->deleted)) {
