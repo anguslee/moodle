@@ -561,7 +561,7 @@ abstract class moodle_database {
      * @throws dml_exception
      * @return array An array list containing sql 'where' part and 'params'.
      */
-    protected function where_clause($table, array $conditions=null) {
+    public function where_clause($table, array $conditions=null) {
         // We accept nulls in conditions
         $conditions = is_null($conditions) ? array() : $conditions;
         // Some checks performed under debugging only

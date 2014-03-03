@@ -56,7 +56,15 @@ if (!empty($CFG->forceloginforprofiles)) {
 }
 
 $userid = $userid ? $userid : $USER->id;       // Owner of the page
-if ((!$user = $DB->get_record('user', array('id' => $userid))) || ($user->deleted)) {
+list($where_clause, $params) = $DB->where_clause('user', array('mdl_user.id' => $userid));
+if ($where_clause) {
+    $where_clause = "WHERE $where_clause";
+}
+
+$sql = "SELECT mdl_user.*, mdl_unit.name as unit_name FROM mdl_user inner join mdl_unit on mdl_user.unit_id = mdl_unit.id "
+        . $where_clause;
+$user = $DB->get_record_sql($sql, $params);
+if (!$user || ($user->deleted)) {
     $PAGE->set_context(context_system::instance());
     echo $OUTPUT->header();
     if (!$user) {
@@ -81,7 +89,7 @@ if (!$currentuser &&
     $PAGE->set_context(context_system::instance());
     $PAGE->set_title("$SITE->shortname: $struser");  // Do not leak the name
     $PAGE->set_heading("$SITE->shortname: $struser");
-    $PAGE->set_url('/user/profile.php', array('id'=>$userid));
+    $PAGE->set_url('/user/student_profile.php', array('id'=>$userid));
     $PAGE->navbar->add($struser);
     echo $OUTPUT->header();
     echo $OUTPUT->notification(get_string('usernotavailable', 'error'));
@@ -321,11 +329,16 @@ if ($user->msn && !isset($hiddenfields['msnid'])) {
     echo html_writer::tag('dd', s($user->msn));
 }
 
-// demonstrates zhulou custom fields
+// zhulou custom fields
 
 if ($user->gender && !isset($hiddenfields['gender'])) {
     echo html_writer::tag('dt', '性别');
     echo html_writer::tag('dd', $user->gender);
+}
+
+if ($user->unit_name && !isset($hiddenfields['unit_name'])) {
+    echo html_writer::tag('dt', '班级');
+    echo html_writer::tag('dd', $user->unit_name);
 }
 
 if ($user->birthdate && !isset($hiddenfields['birthdate'])) {

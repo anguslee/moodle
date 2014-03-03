@@ -148,9 +148,13 @@ function useredit_shared_definition(&$mform, $editoroptions = null, $filemanager
     $mform->addRule('entry_year', $strrequired, 'required', null, 'client');
     $mform->setType('entry_year', PARAM_INT);
 
-    $mform->addElement('text', 'unit_id', '所属班级', 'maxlength="255" size="25"');
+    $available_units = $DB->get_records('unit');
+    $unit_select_array = array();
+    foreach ($available_units as $unit_id => $unit) {
+        $unit_select_array[$unit_id] = $unit->name;
+    }
+    $mform->addElement('select', 'unit_id', '所属班级', $unit_select_array);
     $mform->addRule('unit_id', $strrequired, 'required', null, 'client');
-    $mform->setType('unit_id', PARAM_TEXT);
 
 
     /* $enabledusernamefields = useredit_get_enabled_name_fields(); */
@@ -170,72 +174,6 @@ function useredit_shared_definition(&$mform, $editoroptions = null, $filemanager
         $mform->addElement('text', 'email', 'Email', 'maxlength="100" size="30"');
         $mform->setType('email', PARAM_EMAIL);
     }
-
-    /* $choices = array(); */
-    /* $choices['0'] = get_string('emaildisplayno'); */
-    /* $choices['1'] = get_string('emaildisplayyes'); */
-    /* $choices['2'] = get_string('emaildisplaycourse'); */
-    /* $mform->addElement('select', 'maildisplay', get_string('emaildisplay'), $choices); */
-    /* $mform->setDefault('maildisplay', 2); */
-
-    /* $choices = array(); */
-    /* $choices['0'] = get_string('textformat'); */
-    /* $choices['1'] = get_string('htmlformat'); */
-    /* $mform->addElement('select', 'mailformat', get_string('emailformat'), $choices); */
-    /* $mform->setDefault('mailformat', 1); */
-
-    /* if (!empty($CFG->allowusermailcharset)) { */
-    /*     $choices = array(); */
-    /*     $charsets = get_list_of_charsets(); */
-    /*     if (!empty($CFG->sitemailcharset)) { */
-    /*         $choices['0'] = get_string('site').' ('.$CFG->sitemailcharset.')'; */
-    /*     } else { */
-    /*         $choices['0'] = get_string('site').' (UTF-8)'; */
-    /*     } */
-    /*     $choices = array_merge($choices, $charsets); */
-    /*     $mform->addElement('select', 'preference_mailcharset', get_string('emailcharset'), $choices); */
-    /* } */
-
-    /* $choices = array(); */
-    /* $choices['0'] = get_string('emaildigestoff'); */
-    /* $choices['1'] = get_string('emaildigestcomplete'); */
-    /* $choices['2'] = get_string('emaildigestsubjects'); */
-    /* $mform->addElement('select', 'maildigest', get_string('emaildigest'), $choices); */
-    /* $mform->setDefault('maildigest', 0); */
-    /* $mform->addHelpButton('maildigest', 'emaildigest'); */
-
-    /* $choices = array(); */
-    /* $choices['1'] = get_string('autosubscribeyes'); */
-    /* $choices['0'] = get_string('autosubscribeno'); */
-    /* $mform->addElement('select', 'autosubscribe', get_string('autosubscribe'), $choices); */
-    /* $mform->setDefault('autosubscribe', 1); */
-
-    /* if (!empty($CFG->forum_trackreadposts)) { */
-    /*     $choices = array(); */
-    /*     $choices['0'] = get_string('trackforumsno'); */
-    /*     $choices['1'] = get_string('trackforumsyes'); */
-    /*     $mform->addElement('select', 'trackforums', get_string('trackforums'), $choices); */
-    /*     $mform->setDefault('trackforums', 0); */
-    /* } */
-
-    /* $editors = editors_get_enabled(); */
-    /* if (count($editors) > 1) { */
-    /*     $choices = array('' => get_string('defaulteditor')); */
-    /*     $firsteditor = ''; */
-    /*     foreach (array_keys($editors) as $editor) { */
-    /*         if (!$firsteditor) { */
-    /*             $firsteditor = $editor; */
-    /*         } */
-    /*         $choices[$editor] = get_string('pluginname', 'editor_' . $editor); */
-    /*     } */
-    /*     $mform->addElement('select', 'preference_htmleditor', get_string('textediting'), $choices); */
-    /*     $mform->setDefault('preference_htmleditor', ''); */
-    /* } else { */
-    /*     // Empty string means use the first chosen text editor. */
-    /*     $mform->addElement('hidden', 'preference_htmleditor'); */
-    /*     $mform->setDefault('preference_htmleditor', ''); */
-    /*     $mform->setType('preference_htmleditor', PARAM_PLUGIN); */
-    /* } */
 
     $mform->addElement('text', 'url', '个人网站', 'maxlength="255" size="50"');
     $mform->setType('url', PARAM_URL);
