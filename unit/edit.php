@@ -118,6 +118,7 @@ if ($unitnew = $unitform->get_data()) {
     // save and edit
     // print_r($unitnew);
     unit_update_unit($unitnew);
+    redirect("$CFG->wwwroot/unit/unit_profile.php?id=$unit->id");
 }
 
 
