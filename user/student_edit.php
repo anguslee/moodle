@@ -285,7 +285,7 @@ if ($usernew = $userform->get_data()) {
     }
 
     if (!$email_changed || !$CFG->emailchangeconfirmation) {
-        redirect("$CFG->wwwroot/user/view.php?id=$user->id&course=$course->id");
+        redirect("$CFG->wwwroot/user/student_profile.php?id=$user->id&course=$course->id");
     }
 }
 
